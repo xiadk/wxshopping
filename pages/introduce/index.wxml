@@ -1,0 +1,23 @@
+    <template name="product">
+  <view>
+    <text> 产品介绍内容</text>
+  </view>
+</template>
+
+<template name="company">
+  <view>
+    <text> 公司介绍内容</text>
+  </view>
+</template>
+<view class="type-container">
+        <scroll-view class="type-navbar" scroll-x="true">
+            <view class="type-box" wx:for-items="{{categories}}" wx:key="id">
+                <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" bindtap="tabClick">
+                    {{item.name}}
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+<template is="{{tempName}}"/>
+
+    
