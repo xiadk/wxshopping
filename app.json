@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/index2/index2",
     "pages/start/start",
     "pages/index/index",
     "pages/goods-details/index",
@@ -16,7 +17,8 @@
     "pages/recharge/index",
     "pages/withdraw/index",
     "pages/kanjia/index",
-    "pages/authorize/index"
+    "pages/authorize/index",
+    "pages/introduce/index"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -31,12 +33,12 @@
     "backgroundColor": "#fff",
     "box-shadow":"0 0 6px 0",
     "list": [{
-     "pagePath": "pages/index/index",
+     "pagePath": "pages/index2/index2",
       "iconPath": "images/nav/home-off.png",
       "selectedIconPath": "images/nav/home-on.png",
       "text": "首页"
     }, {
-      "pagePath": "pages/shop-cart/index",
+      "pagePath": "pages/introduce/index",
       "iconPath": "images/nav/cart-off.png",
       "selectedIconPath": "images/nav/cart-on.png",
       "text": "购物车"

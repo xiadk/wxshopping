@@ -64,10 +64,11 @@ Page({
   onShareAppMessage: function () {
   
   },
-  bindGetUserInfo: function (e) {
+  bindGetUserInfo: function (e) { 
     if (!e.detail.userInfo){
       return;
     }
+    console.log(e.detail.userInfo);
     wx.setStorageSync('userInfo', e.detail.userInfo)
     this.login();
   },
@@ -95,7 +96,7 @@ Page({
     wx.login({
       success: function (res) {
         wx.request({
-          url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/wxapp/login',
+          url: app.globalData.baseurl + '/login',
           data: {
             code: res.code
           },

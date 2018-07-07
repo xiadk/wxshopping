@@ -14,9 +14,8 @@
       <view class="bd">
          <image class="smalltitle" src="/images/more/confirm-word1.png"></image>
         <view class="confirm-btn" bindtap='goToIndex'>
-          <text >进入店铺</text>
+          <text >人工智能</text>
         </view>
-        <text class="copyright">@qindiandadudu 贡献本页代码</text>
       </view>
     </view>
   </block>

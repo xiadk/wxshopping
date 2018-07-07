@@ -16,10 +16,10 @@ Page({
     totalScoreToPay: 0,
     shopNum:0,
     hideShopPopup:true,
-    buyNumber:0,
+    buyNumber:1,
     buyNumMin:1,
-    buyNumMax:0,
-
+    buyNumMax:10,
+    product: null,
     propertyChildIds:"",
     propertyChildNames:"",
     canSubmit:false, //  选中规格尺寸时候是否允许加入购物车
@@ -35,6 +35,20 @@ Page({
     })  
   },
   onLoad: function (e) {
+    let pro = JSON.parse(e.product)
+    this.setData({
+      product: pro
+    })
+    wx.request({
+      url: app.globalData.baseurl+"/details/productDetails?productId="+pro.id,
+      method:"get",
+      success: res => {
+        console.log(res.data)
+        this.setData({
+          goodsDetail:res.data
+        })
+      }
+    })
     if (e.inviter_id) {
       wx.setStorage({
         key: 'inviter_id_' + e.id,
@@ -244,7 +258,6 @@ Page({
     }
     //组建购物车
     var shopCarInfo = this.bulidShopCarInfo();
-
     this.setData({
       shopCarInfo:shopCarInfo,
       shopNum:shopCarInfo.shopNum
@@ -261,7 +274,7 @@ Page({
       icon: 'success',
       duration: 2000
     })
-    //console.log(shopCarInfo);
+    // console.log(shopCarInfo);
 
     //shopCarInfo = {shopNum:12,shopList:[]}
   },

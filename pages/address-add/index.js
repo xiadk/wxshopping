@@ -61,6 +61,7 @@ Page({
       districtId = '';
     } else {
       districtId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].districtList[this.data.selDistrictIndex].id;
+      console.log("收获地址"+districtId)
     }
     if (address == ""){
       wx.showModal({

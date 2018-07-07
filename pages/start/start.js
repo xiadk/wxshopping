@@ -9,11 +9,19 @@ Page({
   },
   goToIndex:function(){
     wx.switchTab({
-      url: '/pages/index/index',
+      url: '/pages/index2/index2',
     });
   },
   onLoad:function(){
     var that = this
+    var o={};
+    o["name"]="夏德康";
+    o["age"]=15;
+    app.getHttpGetData(function(data){
+      console.log(data.name);
+    });
+    
+    
     wx.setNavigationBarTitle({
       title: wx.getStorageSync('mallName')
     })

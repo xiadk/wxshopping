@@ -1,17 +1,25 @@
 //app.js
 App({
   onLaunch: function () {
-    var that = this;    
+    var that = this;
+    this.getHttpPostData(function(data){
+      console.log(data);
+    });
+    var test = {
+      id: 1
+    };    
     //  获取商城名称
     wx.request({
-      url: 'https://api.it120.cc/'+ that.globalData.subDomain +'/config/get-value',
+      url: that.globalData.baseurl +'/place/findPlace',
+      method:"GET",
       data: {
-        key: 'mallName'
+        id: 1
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       success: function(res) {
-        if (res.data.code == 0) {
-          wx.setStorageSync('mallName', res.data.data.value);
-        }
+        console.log(res.data);
       }
     })
     wx.request({
@@ -36,16 +44,6 @@ App({
         }
       }
     })
-    // 获取砍价设置
-    wx.request({
-      url: 'https://api.it120.cc/' + that.globalData.subDomain + '/shop/goods/kanjia/list',
-      data: {},
-      success: function (res) {
-        if (res.data.code == 0) {
-          that.globalData.kanjiaList = res.data.data.result;
-        }
-      }
-    })
     // 判断是否登录
     let token = wx.getStorageSync('token');
     if (!token) {
@@ -62,6 +60,31 @@ App({
           wx.removeStorageSync('token')
           that.goLoginPageTimeOut()
         }
+      }
+    })
+  },
+  getHttpGetData:function(dataObject,cb){
+    wx.request({
+      url: 'http://192.168.0.106:9000/ZIBShopping/login/index', 
+      data:dataObject,
+      method:'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        cb(res.data)
+      }
+    })
+  },
+  getHttpPostData: function (cb) {
+    wx.request({
+      url: 'http://localhost:9000/ZIBShopping/login', 
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        cb(res.data)
       }
     })
   },
@@ -121,6 +144,7 @@ App({
     }, 1000)    
   },
   globalData:{
+    baseurl:"http://192.168.0.102:9000/ZIBShopping",
     userInfo:null,
     subDomain: "tz", // 如果你的域名是： https://api.it120.cc/abcd 那么这里只要填写 abcd
     version: "2.0",
