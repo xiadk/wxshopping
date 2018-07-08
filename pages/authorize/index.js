@@ -68,62 +68,43 @@ Page({
     if (!e.detail.userInfo){
       return;
     }
-    console.log(e.detail.userInfo);
     wx.setStorageSync('userInfo', e.detail.userInfo)
-    this.login();
+    this.login(e.detail.userInfo);
   },
-  login: function () {
-    let that = this;
+  login: function (userInfo) {
     let token = wx.getStorageSync('token');
     if (token) {
-      wx.request({
-        url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/check-token',
-        data: {
-          token: token
-        },
-        success: function (res) {
-          if (res.data.code != 0) {
-            wx.removeStorageSync('token')
-            that.login();
-          } else {
-            // 回到原来的地方放
-            wx.navigateBack();
-          }
-        }
-      })
+      // wx.request({
+      //   url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/check-token',
+      //   data: {
+      //     token: token
+      //   },
+      //   success: function (res) {
+      //     if (res.data.code != 0) {
+      //       wx.removeStorageSync('token')
+      //       that.login();
+      //     } else {
+      //       // 回到原来的地方放
+      //       wx.navigateBack();
+      //     }
+      //   }
+      // })
       return;
     }
     wx.login({
       success: function (res) {
-        wx.request({
-          url: app.globalData.baseurl + '/login',
-          data: {
-            code: res.code
-          },
-          success: function (res) {
-            if (res.data.code == 10000) {
-              // 去注册
-              that.registerUser();
-              return;
-            }
-            if (res.data.code != 0) {
-              // 登录错误
-              wx.hideLoading();
-              wx.showModal({
-                title: '提示',
-                content: '无法登录，请重试',
-                showCancel: false
-              })
-              return;
-            }
-            wx.setStorageSync('token', res.data.data.token)
-            wx.setStorageSync('uid', res.data.data.uid)
-            // 回到原来的地方放
-            wx.navigateBack();
+        userInfo["code"]=res.code;
+        app.getHttpPostData(function(result){
+          console.log(result);
+          if(result.code < 0){
+            console.log(result.msg);
+            return;
+          }
+          wx.setStorageSync("token", result.token);
+          wx.navigateBack();
+        }, userInfo,"/login/getToken"); 
           }
         })
-      }
-    })
   },
   registerUser: function () {
     var that = this;
