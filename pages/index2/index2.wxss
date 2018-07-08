@@ -163,12 +163,18 @@
 
 
 .hot-item .pic{
+    width: 25%;
     text-align: center;
-    margin-right: 20rpx
+    margin-right: 20rpx;
+    padding-right:5%;
+}
+.hot-item .text{
+    width: 65%;
 }
 .hot-item image{
-    width: 135rpx;
-    height: 135rpx
+    width:196rpx;
+    height:108rpx;
+
 }
 .hot-item .title{
     height: 72rpx;

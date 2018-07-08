@@ -14,7 +14,7 @@ Page({
     selectSize:"选择：",
     selectSizePrice:0,
     totalScoreToPay: 0,
-    shopNum:0,
+    shopNum:1,
     hideShopPopup:true,
     buyNumber:1,
     buyNumMin:1,

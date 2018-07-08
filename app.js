@@ -8,6 +8,15 @@ App({
     var test = {
       id: 1
     };    
+    // 初始化
+    wx.request({
+      url: that.globalData.baseurl+'/zib/viewpager',
+      method:'get',
+      success:res=>{
+        that.globalData.init = res.data
+      }
+      
+    })
     //  获取商城名称
     wx.request({
       url: that.globalData.baseurl +'/place/findPlace',
@@ -65,7 +74,7 @@ App({
   },
   getHttpGetData:function(dataObject,cb){
     wx.request({
-      url: 'http://192.168.0.106:9000/ZIBShopping/login/index', 
+      url: 'http://192.168.0.105:9000/ZIBShopping/login/index', 
       data:dataObject,
       method:'GET',
       header: {
@@ -144,10 +153,11 @@ App({
     }, 1000)    
   },
   globalData:{
-    baseurl:"http://192.168.0.102:9000/ZIBShopping",
+    baseurl:"http://192.168.0.105:9000/ZIBShopping",
     userInfo:null,
     subDomain: "tz", // 如果你的域名是： https://api.it120.cc/abcd 那么这里只要填写 abcd
     version: "2.0",
+    init:null,
     shareProfile: '百款精品商品，总有一款适合您' // 首页转发的时候话术
   }
   /*

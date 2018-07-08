@@ -15,42 +15,29 @@
         <view class="commiditys">
             <view class="recommend">
                 <view class="label">推荐商品</view>
-                <view class="recommend-item" bindtap="toDetailsTap">
+                <view class="recommend-item" data-product='{{recommend}}' bindtap="toDetailsTap">
                     <view class="pic">
-                        <image src="{{list[0].imgUrl}}" ></image>
+                        <image src="{{recommend.imgUrl}}" ></image>
                     </view>
-                    <view class="title">{{list[0].name}}</view>
+                    <view class="title">{{recommend.name}}</view>
                     <view class="info">
-                        <view class="price">{{list[0].price}}</view>
-                        <view class="count">{{list[0].salesCount}}</view>
+                        <view class="price">{{recommend.price}}</view>
+                        <view class="count">{{recommend.salesCount}}</view>
                     </view>
                 </view>
             </view>
             <view class="hot">
                 <view class="label">热卖商品</view>
-                <view class="hot-wrap">
-                    <view class="hot-item" bindtap="toDetailsTap">
+                <view class="hot-wrap" wx:for="{{produsts}}" wx:for-item="item" wx:key="item">
+                    <view class="hot-item" data-product='{{item}}' bindtap="toDetailsTap">
                         <view class="pic">
-                            <image src="../../images/zb_02.png" ></image>
+                            <image src="{{item.imgUrl}}" ></image>
                         </view>
                         <view class="text">
-                            <view class="title">昭和无惨绘｜丸尾末广×花轮和一 新英名二十八</view>
+                            <view class="title">{{item.name}}</view>
                             <view class="info">
-                                <view class="price">35</view>
-                                <view class="count">98</view>
-                            </view>
-                        </view>                      
-                    </view>
-
-                    <view class="hot-item" bindtap="toDetailsTap">
-                        <view class="pic">
-                            <image src="../../images/zb_03.png" ></image>
-                        </view>
-                        <view class="text">
-                            <view class="title">昭和无惨绘｜丸尾末广×花轮和一 新英名二十八</view>
-                            <view class="info">
-                                <view class="price">35</view>
-                                <view class="count">98</view>
+                                <view class="price">{{item.price}}</view>
+                                <view class="count">{{item.salesCount}}</view>
                             </view>
                         </view>                      
                     </view>

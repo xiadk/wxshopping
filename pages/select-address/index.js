@@ -3,17 +3,30 @@
 var app = getApp()
 Page({
   data: {
-    addressList:[]
+    addressList: [{ 
+      isDefault:true,
+      id:1,
+      linkMan:'曾建海',
+      mobile:150000595,
+      address:"江西丰城"
+    },{
+      isDefault: true,
+      id: 2,
+      linkMan: 'dk',
+      mobile: 150000595,
+      address: "江西广丰"
+    }]
   },
 
   selectTap: function (e) {
     var id = e.currentTarget.dataset.id;
     wx.request({
-      url: 'https://api.it120.cc/'+ app.globalData.subDomain +'/user/shipping-address/update',
+      url: app.globalData.baseurl +'/place/save',
+      method: 'post',
       data: {
         token: wx.getStorageSync('token'),
         id:id,
-        isDefault:'true'
+        isDefault:true
       },
       success: (res) =>{
         wx.navigateBack({})
@@ -44,20 +57,14 @@ Page({
   initShippingAddress: function () {
     var that = this;
     wx.request({
-      url: 'https://api.it120.cc/'+ app.globalData.subDomain +'/user/shipping-address/list',
+      url: app.globalData.baseurl + '/place/findAllPlace',
+      method: 'post',
       data: {
         token: wx.getStorageSync('token')
       },
       success: (res) =>{
-        if (res.data.code == 0) {
-          that.setData({
-            addressList:res.data.data
-          });
-        } else if (res.data.code == 700){
-          that.setData({
-            addressList: null
-          });
-        }
+        console.log(res.data)
+        
       }
     })
   }

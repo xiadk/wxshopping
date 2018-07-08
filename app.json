@@ -41,7 +41,7 @@
       "pagePath": "pages/introduce/index",
       "iconPath": "images/nav/cart-off.png",
       "selectedIconPath": "images/nav/cart-on.png",
-      "text": "购物车"
+      "text": "介绍"
     },
     {
       "pagePath": "pages/my/index",

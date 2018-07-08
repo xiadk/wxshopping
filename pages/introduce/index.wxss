@@ -236,3 +236,10 @@ swiper-item image {
   border:none;
   position: relative;
 }
+.goods-text{
+  padding: 0 10rpx;
+  font-size:28rpx;
+  color:#666666;
+  line-height: 56rpx;
+  margin-bottom: 30rpx;
+}

@@ -6,7 +6,8 @@ Page({
       'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
       'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
     ],
-    list:[{
+    recommend:{},
+    produsts:[{
       id:1,
       name:"智伴",
       salesCount:12,
@@ -22,17 +23,34 @@ Page({
   },
   onLoad: function(){
     let that = this
-    let product = that.data.list
+    var map={"count":1}
+    //轮播图
+    if (app.globalData.init.VIEWGAGER_IMG) {
+      that.setData({
+        imgUrls: app.globalData.init.VIEWGAGER_IMG
+      })
+    }
+    wx.request({
+      url: app.globalData.baseurl + "/product/recommend",
+      data:JSON.stringify(map),
+      method: "post",
+      success: res => {
+        that.setData({
+          recommend: res.data
+        })
+      },fail: res=>{
+        console.log(res)
+      }
+    })
     wx.request({
       url: app.globalData.baseurl+"/product/findProduct?updateTime="+new Date+"&row="+6,
       method:"get",
       success: res => {
-        product = res.data
+        
         that.setData({
-          list: product
+          produsts: res.data
         })
-        console.log(that.data.list)
-      },
+      }
     })
   },
   onShow: function () {
@@ -70,10 +88,9 @@ Page({
   },
   //跳转到详情
   toDetailsTap: function (e) {
-    var that = this
-    console.log("this:"+that.data.list[0]);
+    var product = e.currentTarget.dataset.product
     wx.navigateTo({
-      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id+"&product="+JSON.stringify(this.data.list[0])
+      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id + "&product=" + JSON.stringify(product)
     })
   },
 })

@@ -1,12 +1,18 @@
-    <template name="product">
+<template name="product">
   <view>
-    <text> 产品介绍内容</text>
+    <view class="goods-text" wx:for="{{introduce.goodsIntroduce}}" wx:key="{{key}}">
+        <image src="{{item}}" class="slide-image" width="355" height="150"
+              mode="aspectFit" lazy-load="true"/>
+    </view>
   </view>
 </template>
 
 <template name="company">
   <view>
-    <text> 公司介绍内容</text>
+    <view class="goods-text" wx:for="{{introduce.companyIntoduce}}" wx:key="*this">
+        <image src="{{item}}" class="slide-image" width="355" height="150"
+              mode="aspectFit" lazy-load="true"/>
+    </view>
   </view>
 </template>
 <view class="type-container">
@@ -18,6 +24,6 @@
             </view>
         </scroll-view>
     </view>
-<template is="{{tempName}}"/>
+<template is="{{tempName}}" data="{{introduce}}"/>
 
     
