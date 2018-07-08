@@ -2,57 +2,28 @@
 App({
   onLaunch: function () {
     var that = this;
-    this.getHttpPostData(function(data){
-      console.log(data);
-    });
-    var test = {
-      id: 1
-    };    
+   
+    var obj = null
+    this.getHttpGetData(function (data) {
+      that.globalData.init = data
+      console.log(data)
+    }, obj, '/zib/viewpager');
+
     // 初始化
-    wx.request({
-      url: that.globalData.baseurl+'/zib/viewpager',
-      method:'get',
-      success:res=>{
-        that.globalData.init = res.data
-      }
+    // wx.request({
+    //   url: that.globalData.baseurl+'/zib/viewpager',
+    //   method:'get',
+    //   success:res=>{
+    //     that.globalData.init = res.data
+    //   }
       
-    })
-    //  获取商城名称
-    wx.request({
-      url: that.globalData.baseurl +'/place/findPlace',
-      method:"GET",
-      data: {
-        id: 1
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },
-      success: function(res) {
-        console.log(res.data);
-      }
-    })
-    wx.request({
-      url: 'https://api.it120.cc/' + that.globalData.subDomain + '/score/send/rule',
-      data: {
-        code: 'goodReputation'
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          that.globalData.order_reputation_score = res.data.data[0].score;
-        }
-      }
-    })
-    wx.request({
-      url: 'https://api.it120.cc/' + that.globalData.subDomain + '/config/get-value',
-      data: {
-        key: 'recharge_amount_min'
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          that.globalData.recharge_amount_min = res.data.data.value;
-        }
-      }
-    })
+    // })
+   
+    // var obj = {"uid":"1"};
+    // this.getHttpPostData(function(data){
+    //   console.log(data);
+    // },obj,"/login/test");
+
     // 判断是否登录
     let token = wx.getStorageSync('token');
     if (!token) {
@@ -72,27 +43,43 @@ App({
       }
     })
   },
-  getHttpGetData:function(dataObject,cb){
+   /**
+   * cb:回调函数
+   * obj:参数
+   * url:请求地址
+   */
+  getHttpGetData:function(cb,data,url){
+    var that = this;
     wx.request({
-      url: 'http://192.168.0.105:9000/ZIBShopping/login/index', 
-      data:dataObject,
+
+      url: that.globalData.baseurl+url,
       method:'GET',
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded', // 默认值
+        'token': that.globalData.token == null ? "" : that.globalData.token
       },
+      data:data,
       success: function (res) {
         cb(res.data)
       }
     })
   },
-  getHttpPostData: function (cb) {
+  /**
+   * cb:回调函数
+   * obj:参数
+   * url:请求地址
+   */
+  getHttpPostData: function (cb,data,url) { 
+    var that = this;
     wx.request({
-      url: 'http://localhost:9000/ZIBShopping/login', 
+      url: that.globalData.baseurl+url, 
       method: 'POST',
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/json', // 默认值
+        'token': that.globalData.token == null ? "" : that.globalData.token
       },
-      success: function (res) {
+      data:data,
+      success: function (res) { 
         cb(res.data)
       }
     })
@@ -153,8 +140,9 @@ App({
     }, 1000)    
   },
   globalData:{
-    baseurl:"http://192.168.0.105:9000/ZIBShopping",
+    baseurl:"http://localhost:9000/ZIBShopping",
     userInfo:null,
+    token: wx.getStorageSync('token'),
     subDomain: "tz", // 如果你的域名是： https://api.it120.cc/abcd 那么这里只要填写 abcd
     version: "2.0",
     init:null,
