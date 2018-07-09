@@ -18,7 +18,7 @@ App({
     //   }
       
     // })
-   
+    
     // var obj = {"uid":"1"};
     // this.getHttpPostData(function(data){
     //   console.log(data);
@@ -26,22 +26,12 @@ App({
 
     // 判断是否登录
     let token = wx.getStorageSync('token');
+    console.log("token:" + token)
     if (!token) {
       that.goLoginPageTimeOut()
       return
     }
-    wx.request({
-      url: 'https://api.it120.cc/' + that.globalData.subDomain + '/user/check-token',
-      data: {
-        token: token
-      },
-      success: function (res) {
-        if (res.data.code != 0) {
-          wx.removeStorageSync('token')
-          that.goLoginPageTimeOut()
-        }
-      }
-    })
+    
   },
    /**
    * cb:回调函数

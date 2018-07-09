@@ -9,7 +9,7 @@ Page({
       linkMan:'曾建海',
       mobile:150000595,
       address:"江西丰城"
-    },{
+    },{ 
       isDefault: true,
       id: 2,
       linkMan: 'dk',
@@ -20,18 +20,27 @@ Page({
 
   selectTap: function (e) {
     var id = e.currentTarget.dataset.id;
-    wx.request({
-      url: app.globalData.baseurl +'/place/save',
-      method: 'post',
-      data: {
-        token: wx.getStorageSync('token'),
-        id:id,
-        isDefault:true
-      },
-      success: (res) =>{
-        wx.navigateBack({})
-      }
-    })
+    var that_data = {
+      token: wx.getStorageSync('token'),
+      id: id,
+      isDefault: true
+    }
+    console.log("><><><><><")
+    app.getHttpPostData(function (result) {
+      wx.navigateBack({})
+    }, that_data, '/place/save');
+    // wx.request({
+    //   url: app.globalData.baseurl +'/place/save',
+    //   method: 'post',
+    //   data: {
+    //     token: wx.getStorageSync('token'),
+    //     id:id,
+    //     isDefault:true
+    //   },
+    //   success: (res) =>{
+    //     wx.navigateBack({})
+    //   }
+    // })
   },
 
   addAddess : function () {
@@ -56,17 +65,14 @@ Page({
   },
   initShippingAddress: function () {
     var that = this;
-    wx.request({
-      url: app.globalData.baseurl + '/place/findAllPlace',
-      method: 'post',
-      data: {
-        token: wx.getStorageSync('token')
-      },
-      success: (res) =>{
-        console.log(res.data)
-        
-      }
-    })
+    var token= wx.getStorageSync('token')
+    
+    app.getHttpPostData(function (result) {
+      that.setData({
+        addressList: result
+      })
+      console.log(that.data.addressList)
+    }, token, '/place/findAllPlace');
   }
 
 })

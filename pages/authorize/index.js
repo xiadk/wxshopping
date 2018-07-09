@@ -74,59 +74,25 @@ Page({
   login: function (userInfo) {
     let token = wx.getStorageSync('token');
     if (token) {
-      // wx.request({
-      //   url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/check-token',
-      //   data: {
-      //     token: token
-      //   },
-      //   success: function (res) {
-      //     if (res.data.code != 0) {
-      //       wx.removeStorageSync('token')
-      //       that.login();
-      //     } else {
-      //       // 回到原来的地方放
-      //       wx.navigateBack();
-      //     }
-      //   }
-      // })
+
       return;
     }
-    wx.login({
+    wx.login({ 
       success: function (res) {
-        userInfo["code"]=res.code;
+        userInfo["code"]=res.code
+        console.log(">>>>>>>>>>>>"+res.code)
         app.getHttpPostData(function(result){
           console.log(result);
           if(result.code < 0){
             console.log(result.msg);
             return;
           }
+          app.globalData.token = result.token;
           wx.setStorageSync("token", result.token);
           wx.navigateBack();
         }, userInfo,"/login/getToken"); 
-          }
-        })
-  },
-  registerUser: function () {
-    var that = this;
-    wx.login({
-      success: function (res) {
-        var code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
-        wx.getUserInfo({
-          success: function (res) {
-            var iv = res.iv;
-            var encryptedData = res.encryptedData;
-            // 下面开始调用注册接口
-            wx.request({
-              url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/wxapp/register/complex',
-              data: { code: code, encryptedData: encryptedData, iv: iv }, // 设置请求的 参数
-              success: (res) => {
-                wx.hideLoading();
-                that.login();
-              }
-            })
-          }
-        })
-      }
+       }
     })
-  }
+  
+  },
 })

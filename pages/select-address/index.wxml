@@ -9,7 +9,7 @@
                     {{item.linkMan}}  {{item.mobile}}
                  </view>
                  <view class="address-box">
-                    {{item.address}}
+                    {{item.area}} {{item.city}} {{item.counties}} {{item.address}}
                  </view>     
              </view>   
              <view class="right-edit" bindtap="editAddess" data-id="{{item.id}}"></view> 
