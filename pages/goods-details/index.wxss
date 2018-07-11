@@ -18,7 +18,7 @@ swiper-item image {
   width: 100%;
   display: inline-block;
   overflow: hidden;
-  height:748rpx;
+  height:366rpx;
 }
 .swiper-container .dots{  
   position: absolute;  

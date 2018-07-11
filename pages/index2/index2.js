@@ -76,7 +76,7 @@ Page({
   toDetailsTap: function (e) {
     var product = e.currentTarget.dataset.product
     wx.navigateTo({
-      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id + "&product=" + JSON.stringify(product)
+      url: "/pages/goods-details/index?product=" + JSON.stringify(product)
     })
   },
 })

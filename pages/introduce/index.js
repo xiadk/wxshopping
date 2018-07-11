@@ -29,27 +29,16 @@ Page({
     });
   },
   onLoad: function () {
-    var that = this
-    console.log(that.data.goodsIntroduce)
-    wx.setNavigationBarTitle({
-      title: wx.getStorageSync('mallName')
-    })
-    //访问产品介绍和公司介绍
-    var goods = 'introduce.goodsIntroduce';
-    var company = 'introduce.companyIntoduce';
-    if (app.globalData.init.GOODS_INTR){
-      that.setData({
-        [goods]: app.globalData.init.GOODS_INTR
-      })
-    }
-    if (app.globalData.init.COMPANY_INTR) {
-      that.setData({
-        [company]: app.globalData.init.COMPANY_INTR
-      })
-    }
-    
-  }
-
   
+  },
+  onShow: function(){
+    var that = this
+    app.getHttpGetData(function (data) { 
+      that.setData({
+        'introduce.goodsIntroduce': data.goodsImages,
+        'introduce.companyIntoduce': data.companyImages,
+      })
+    }, null, '/introduce/detail')
+  }
  
 })

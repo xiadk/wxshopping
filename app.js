@@ -29,7 +29,15 @@ App({
       },
       data:data,
       success: function (res) {
+        if(res.data.code<0){
+          wx.showModal({
+            title: '错误',
+            content: res.data.msg,
+            showCancel: false
+          })
+        } else {
         cb(res.data)
+        }
       }
     })
   },
@@ -49,7 +57,15 @@ App({
       },
       data:data,
       success: function (res) { 
-        cb(res.data)
+        if (res.data.code < 0) {
+          wx.showModal({
+            title: '错误',
+            content: res.data.msg,
+            showCancel: false
+          })
+        } else {
+          cb(res.data)
+        }
       }
     })
   },  
