@@ -17,12 +17,12 @@
             </view>
             <view class="text-box">
                 <view class="arow arow01">
-                    <view class="goods-name">{{item.name}}</view>
+                    <view class="goods-name">{{item.goodsName}}</view>
                     <view class="goods-price">¥ {{item.price}}</view>
                 </view>
                 <view class="arow">
                     <view class="goods-label">{{item.label}}</view>
-                    <view class="goods-num">x {{item.number}}</view>
+                    <view class="goods-num">x {{item.productCount}}</view>
                 </view>
             </view>
         </view>
@@ -72,7 +72,7 @@
 
      <view class="jiesuan-box">
         <view class="left-price">
-            <view class="total">合计：¥ {{allGoodsAndYunPrice - youhuijine}} + {{totalScoreToPay}} 积分</view>
+            <view class="total">合计：¥ {{item.price*item.priceCount}}</view>
         </view>
         <button class="to-pay-btn" formType="submit">提交订单</button>
     </view>

@@ -12,7 +12,7 @@
                     {{item.area}} {{item.city}} {{item.counties}} {{item.address}}
                  </view>     
              </view>   
-             <view class="right-edit" bindtap="editAddess" data-id="{{item.id}}"></view> 
+             <view class="right-edit" bindtap="editAddess" data-place="{{item}}"></view> 
         </view>
     </view>
     <view class="bottom-box">

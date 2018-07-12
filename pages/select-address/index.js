@@ -29,18 +29,7 @@ Page({
     app.getHttpPostData(function (result) {
       wx.navigateBack({})
     }, that_data, '/place/save');
-    // wx.request({
-    //   url: app.globalData.baseurl +'/place/save',
-    //   method: 'post',
-    //   data: {
-    //     token: wx.getStorageSync('token'),
-    //     id:id,
-    //     isDefault:true
-    //   },
-    //   success: (res) =>{
-    //     wx.navigateBack({})
-    //   }
-    // })
+    
   },
 
   addAddess : function () {
@@ -51,7 +40,7 @@ Page({
   
   editAddess: function (e) {
     wx.navigateTo({
-      url: "/pages/address-add/index?id=" + e.currentTarget.dataset.id
+      url: "/pages/address-add/index?goodsPlace=" + JSON.stringify(e.currentTarget.dataset.place)
     })
   },
   

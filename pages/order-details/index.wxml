@@ -9,7 +9,7 @@
                 <image wx:elif="{{orderDetail.orderInfo.status==3 || orderDetail.orderInfo.status==4}}" class="icon" src="/images/order-details/icon-jycg.png"></image>
             </view>
             <view class="right-text">
-                <view class="status red">{{orderDetail.orderInfo.statusStr}}</view>
+                <view class="status red">{{orderDetail.orderInfo.statusValue}}</view>
                 <view class="des" hidden="true">请于11时59分59秒内付款，超时订单将自动关闭</view>
             </view>
         </view>
@@ -57,16 +57,16 @@
             <block wx:for-items="{{orderDetail.goods}}" wx:key="{{index}}">
             <view class="a-goods">
                 <view class="img-box">
-                    <image src="{{item.pic}}" class="img" />
+                    <image src="{{item.img}}" class="img" />
                 </view>
                 <view class="text-box">
                     <view class="arow arow01">
                         <view class="goods-name">{{item.goodsName}}</view>
-                        <view class="goods-price">¥ {{item.amount}}</view>
+                        <view class="goods-price">¥ {{item.price}}</view>
                     </view>
                     <view class="arow">
                         <view class="goods-label">{{item.property}}</view>
-                        <view class="goods-num">x {{item.number}}</view>
+                        <view class="goods-num">x {{item.productCount}}</view>
                     </view>
                 </view>
             </view>
@@ -75,16 +75,16 @@
                   <view class="section section_gap">
                     <view style="margin-top:35rpx;margin-bottom:35rpx;">评价：</view>
                     <radio-group name="goodReputation{{index}}">
-                      <label style="margin-right:35rpx;"><radio value="2" checked/>好评</label>
-                      <label style="margin-right:35rpx;"><radio value="1"/>中评</label>
-                      <label style="margin-right:35rpx;"><radio value="0"/>差评</label>
+                      <label style="margin-right:35rpx;"><radio value="好评" checked/>好评</label>
+                      <label style="margin-right:35rpx;"><radio value="中评"/>中评</label>
+                      <label style="margin-right:35rpx;"><radio value="差评"/>差评</label>
                     </radio-group>
                   </view>
-                  <view class="row-box" style="margin-top:35rpx">
+                   <view class="row-box" style="margin-top:35rpx">
                       <view class="row-label">备注</view>
                       <input name="orderGoodsId{{index}}" value="{{item.id}}" style="display:none;"/>
-                      <textarea name="goodReputationRemark{{index}}" style="margin-top:35rpx;width:100%;" value="非常愉快的一次购物！" />
-                  </view>
+                       <textarea name="goodReputationRemark{{index}}" style="margin-top:35rpx;font-size:28rpx;width:100%;color:#999" value="" placeholder="欢迎" /> 
+                  </view> 
             </view>
             </block>
             <view class="btn-row" wx:if="{{orderDetail.orderInfo.status==3}}">
@@ -97,7 +97,25 @@
             </view>
             </form>
         </view>
-        <view class="peisong-way" hidden="true">
+        <view class="goods-order">
+            <view class="row-box">
+                <view class="row-label">订单编号</view>
+                <view class="right-text">{{orderDetail.orderInfo.orderNumber}}</view>
+            </view>
+            <view class="row-box">
+                <view class="row-label">下单时间</view>
+                <view class="right-text">{{orderDetail.orderInfo.updateTime}}</view>
+            </view>
+        </view>
+        <view class="peisong-way" hidden="{{orderDetail.orderInfo.status>=2 ? false:true}}">
+            <view class="row-box">
+                <view class="row-label">收货人</view>
+                <view class="right-text">{{orderDetail.place.linkMan}} {{orderDetail.place.mobile}}</view>
+            </view>
+            <view class="row-box">
+                <view class="row-label">收货地址</view>
+                <view class="right-text">{{orderDetail.place.area}} {{orderDetail.place.city}} {{orderDetail.place.counties}} {{orderDetail.place.town==null ? "" : orderDetail.place.town}} {{orderDetail.place.address}}</view>
+            </view>
             <view class="row-box">
                 <view class="row-label">配送方式</view>
                 <view class="right-text">顺丰快递</view>
@@ -112,15 +130,15 @@
         <view class="goods-info">
             <view class="row-box">
                 <view class="row-label">商品金额</view>
-                <view class="right-text">¥ {{orderDetail.orderInfo.amount}}</view>
+                <view class="right-text">¥ {{orderDetail.orderInfo.price}}</view>
             </view>
             <view class="row-box">
                 <view class="row-label">运费</view>
                 <view class="right-text">+ ¥ {{orderDetail.orderInfo.amountLogistics}}</view>
             </view>
             <view class="row-box">
-                <view class="row-label">应付总额</view>
-                <view class="right-text">¥ {{orderDetail.orderInfo.amountReal}}</view>
+                <view class="row-label">实付金额</view>
+                <view class="right-text red">¥ {{orderDetail.orderInfo.price}}</view>
             </view>
         </view>
 </view>

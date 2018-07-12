@@ -55,14 +55,14 @@ Page({
       })
       return
     }
-    var cityId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].id;
-    var districtId;
-    if (this.data.selDistrict == "请选择" || !this.data.selDistrict){
-      districtId = '';
-    } else {
-      districtId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].districtList[this.data.selDistrictIndex].id;
-      console.log("收获地址"+districtId)
-    }
+    // var cityId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].id;
+    // var districtId;
+    // if (this.data.selDistrict == "请选择" || !this.data.selDistrict){
+    //   districtId = '';
+    // } else {
+    //   districtId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].districtList[this.data.selDistrictIndex].id;
+    //   console.log("收获地址"+districtId)
+    // }
     if (address == ""){
       wx.showModal({
         title: '提示',
@@ -79,42 +79,39 @@ Page({
       })
       return
     }
-    var apiAddoRuPDATE = "add";
     var apiAddid = that.data.id;
+    console.log("apiAddid:" + that.data.id)
     if (apiAddid) {
-      apiAddoRuPDATE = "update";
+      
     } else {
       apiAddid = 0;
     }
-    wx.request({
-      url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/shipping-address/' + apiAddoRuPDATE,
-      data: {
-        token: wx.getStorageSync('token'),
-        id: apiAddid,
-        provinceId: commonCityData.cityData[this.data.selProvinceIndex].id,
-        cityId: cityId,
-        districtId: districtId,
-        linkMan:linkMan,
-        address:address,
-        mobile:mobile,
-        code:code,
-        isDefault:'true'
-      },
-      success: function(res) {
-        if (res.data.code != 0) {
-          // 登录错误 
-          wx.hideLoading();
-          wx.showModal({
-            title: '失败',
-            content: res.data.msg,
-            showCancel:false
-          })
-          return;
-        }
-        // 跳转到结算页面
-        wx.navigateBack({})
+    var addressData = {
+      id: apiAddid,
+      area: this.data.selProvince,
+      city: this.data.selCity,
+      counties: this.data.selDistrict,
+      linkMan: linkMan,
+      address: address,
+      mobile: mobile,
+      code: code,
+      isDefault: 'true'
+    }
+    app.getHttpPostData(function (result) {
+      if (!result) {
+        // 登录错误 
+        wx.hideLoading();
+        wx.showModal({
+          title: '失败',
+          content: "result.msg",
+          showCancel: false
+        })
+        return;
       }
-    })
+      // 跳转到结算页面
+      wx.navigateBack({})
+    }, addressData, '/place/savePlace'); 
+    
   },
   initCityData:function(level, obj){
     if(level == 1){
@@ -179,38 +176,41 @@ Page({
   },
   onLoad: function (e) {
     var that = this;
+    //修改地址，获取收货地址信息
+    var goodsPlace
+    if (e.goodsPlace){
+      goodsPlace = JSON.parse(e.goodsPlace)
+    }
+    console.log()
+    var addressData = {}
+    //收货地址存在
+    if (goodsPlace){
+      console.log(goodsPlace)
+      addressData = {
+        linkMan: goodsPlace.linkMan,
+        mobile: goodsPlace.mobile,
+        address: goodsPlace.address,
+        code: goodsPlace.code
+      }
+      
+    }
     this.initCityData(1);
-    var id = e.id;
-    if (id) {
+    //是从修改跳转过来的，给页面赋值
+    if (goodsPlace) {
       // 初始化原数据
       wx.showLoading();
-      wx.request({
-        url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/shipping-address/detail',
-        data: {
-          token: wx.getStorageSync('token'),
-          id: id
-        },
-        success: function (res) {
-          wx.hideLoading();
-          if (res.data.code == 0) {
-            that.setData({
-              id:id,
-              addressData: res.data.data,
-              selProvince: res.data.data.provinceStr,
-              selCity: res.data.data.cityStr,
-              selDistrict: res.data.data.areaStr
-              });
-            that.setDBSaveAddressId(res.data.data);
-            return;
-          } else {
-            wx.showModal({
-              title: '提示',
-              content: '无法获取快递地址数据',
-              showCancel: false
-            })
-          }
-        }
-      })
+      
+      wx.hideLoading();
+
+      that.setData({
+        id: goodsPlace.id,
+        addressData: addressData,
+        selProvince: goodsPlace.area,
+        selCity: goodsPlace.city,
+        selDistrict: goodsPlace.counties
+      });
+            // that.setDBSaveAddressId(res.data.data);
+      console.log("id:"+that.data.id)
     }
   },
   setDBSaveAddressId: function(data) {
@@ -237,21 +237,17 @@ Page({
   deleteAddress: function (e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
+    console.log(id)
     wx.showModal({
       title: '提示',
       content: '确定要删除该收货地址吗？',
       success: function (res) {
         if (res.confirm) {
-          wx.request({
-            url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/shipping-address/delete',
-            data: {
-              token: wx.getStorageSync('token'),
+          app.getHttpGetData(function (data) {
+            wx.navigateBack({})
+          }, {
               id: id
-            },
-            success: (res) => {
-              wx.navigateBack({})
-            }
-          })
+            }, '/place/delete');
         } else if (res.cancel) {
           console.log('用户点击取消')
         }

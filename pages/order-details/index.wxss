@@ -165,19 +165,19 @@ page{
     width: 720rpx;
     margin-left: 30rpx;
     border-top: 1rpx solid #eee;
+    font-size: 28rpx;
 }
 .confirm-btn{
     background:#ffffff;
     border:1rpx solid #e64340;
     border-radius:6rpx;
-    width:164rpx;
+    width:174rpx;
     height:60rpx;
     line-height: 60rpx;
     text-align: center;
     margin: 20rpx 30rpx 20rpx auto;
     font-size:26rpx;
     color:#e64340;
-    text-align:center;
 }
 .a-goods .text-box .arow{
     display: flex;
@@ -291,4 +291,26 @@ page{
 .jiesuan-box .total{
     color: #e64340;
     text-align: right;
+}
+
+.goods-order{
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 20rpx;
+}
+.goods-order .row-box{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 24rpx 30rpx 12rpx 30rpx;
+    font-size: 28rpx;
+    color: #000;
+}
+.goods-order .row-box .right-text{
+    text-align: right;
+}
+.red{
+  color: #e64340;
 }
