@@ -6,7 +6,14 @@ Page({
       'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
       'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
     ],
-    recommend:{},
+    recommend: {
+      id: 1,
+      name: "智伴",
+      salesCount: 12,
+      price: 756,
+      repertoryCount: 200,
+      imgUrl: "http://",
+      updateTime: new Date},
     produsts:[{
       id:1,
       name:"智伴",
@@ -23,35 +30,14 @@ Page({
   },
   onLoad: function(){
     let that = this
-    var map={"count":1}
-    //轮播图
-    if (app.globalData.init.VIEWGAGER_IMG) {
+    app.getHttpGetData(function (data) {
       that.setData({
-        imgUrls: app.globalData.init.VIEWGAGER_IMG
-      })
-    }
-    wx.request({
-      url: app.globalData.baseurl + "/product/recommend",
-      data:JSON.stringify(map),
-      method: "post",
-      success: res => {
-        that.setData({
-          recommend: res.data
-        })
-      },fail: res=>{
-        console.log(res)
-      }
-    })
-    wx.request({
-      url: app.globalData.baseurl+"/product/findProduct?updateTime="+new Date+"&row="+6,
-      method:"get",
-      success: res => {
-        
-        that.setData({
-          produsts: res.data
-        })
-      }
-    })
+        imgUrls:data.images,
+        recommend: data.recommendProduct,
+        produsts: data.sellingProduct
+      }) 
+      console.log(data);
+    }, null, '/home/viewpager')
   },
   onShow: function () {
     let that = this
@@ -90,7 +76,7 @@ Page({
   toDetailsTap: function (e) {
     var product = e.currentTarget.dataset.product
     wx.navigateTo({
-      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id + "&product=" + JSON.stringify(product)
+      url: "/pages/goods-details/index?product=" + JSON.stringify(product)
     })
   },
 })

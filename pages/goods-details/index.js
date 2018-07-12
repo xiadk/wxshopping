@@ -37,13 +37,13 @@ Page({
   onLoad: function (e) {
     let pro = JSON.parse(e.product)
     this.setData({
-      product: pro
+      product: pro,
+      buyNumMax: pro.repertoryCount
     })
     wx.request({
       url: app.globalData.baseurl+"/details/productDetails?productId="+pro.id,
       method:"get",
       success: res => {
-        console.log(res.data)
         this.setData({
           goodsDetail:res.data
         })
@@ -114,6 +114,7 @@ Page({
     })
     this.bindGuiGeTap();
   },
+  //立即购买
   tobuy: function () {
     this.setData({
       shopType: "tobuy"
@@ -238,17 +239,17 @@ Page({
   * 加入购物车
   */
   addShopCar:function(){
-    if (this.data.goodsDetail.properties && !this.data.canSubmit) {
-      if (!this.data.canSubmit){
-        wx.showModal({
-          title: '提示',
-          content: '请选择商品规格！',
-          showCancel: false
-        })       
-      }
-      this.bindGuiGeTap();
-      return;
-    }
+    // if (this.data.goodsDetail.properties && !this.data.canSubmit) {
+    //   if (!this.data.canSubmit){
+    //     wx.showModal({
+    //       title: '提示',
+    //       content: '请选择商品规格！',
+    //       showCancel: false
+    //     })       
+    //   }
+    //   this.bindGuiGeTap();
+    //   return;
+    // }
     if(this.data.buyNumber < 1){
       wx.showModal({
         title: '提示',
@@ -283,7 +284,6 @@ Page({
 	  * 立即购买
 	  */
   buyNow:function(){
-    
     // if (this.data.goodsDetail.properties && !this.data.canSubmit) {
     //   if (!this.data.canSubmit) {
     //     wx.showModal({

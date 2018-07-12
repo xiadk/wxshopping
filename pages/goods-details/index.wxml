@@ -61,6 +61,8 @@
         <view class="join-shop-cart" bindtap="toAddShopCar">加入购物车</view>
         <view class="now-buy" bindtap="tobuy">立即购买</view>
    </view>
+
+<!--弹框 -->
     <view class="show-popup" hidden="{{hideShopPopup}}" >
         <view class="popup-mask" bindtap="closePopupTap"></view>
         <view class="popup-contents">
@@ -70,7 +72,7 @@
                     <image src="../../images/zb_02.png" class="goods-thumbnail"/>
                 </view>
                 <view class="pop-goods-des">
-                    <view class="pop-goods-title">智伴机器人{{product.name}}</view>
+                    <view class="pop-goods-title">{{product.name}}</view>
                     <view class="pop-goods-price">¥ {{product.price}}</view>
                 </view>
                 <view class="pop-goods-close" bindtap="closePopupTap"></view>
@@ -103,4 +105,6 @@
              </view>                      
         </view>
     </view>
+
+
 </view>
