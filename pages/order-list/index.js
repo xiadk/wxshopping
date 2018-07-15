@@ -46,51 +46,55 @@ Page({
     var orderId = e.currentTarget.dataset.id;
     var money = e.currentTarget.dataset.money;
     var needScore = e.currentTarget.dataset.score;
-    wx.request({
-      url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/amount',
-      data: {
-        token: wx.getStorageSync('token')
-      },
-      success: function (res) {
-        if (res.data.code == 0) {
-          // res.data.data.balance
-          money = money - res.data.data.balance;
-          if (res.data.data.score < needScore) {
-            wx.showModal({
-              title: '错误',
-              content: '您的积分不足，无法支付',
-              showCancel: false
-            })
-            return;
-          }
-          if (money <= 0) {
-            // 直接使用余额支付
-            wx.request({
-              url: 'https://api.it120.cc/' + app.globalData.subDomain + '/order/pay',
-              method:'POST',
-              header: {
-                'content-type': 'application/x-www-form-urlencoded'
-              },
-              data: {
-                token: wx.getStorageSync('token'),
-                orderId: orderId
-              },
-              success: function (res2) {
-                that.onShow();
-              }
-            })
-          } else {
-            wxpay.wxpay(app, money, orderId, "/pages/order-list/index");
-          }
-        } else {
-          wx.showModal({
-            title: '错误',
-            content: '无法获取用户资金信息',
-            showCancel: false
-          })
-        }
-      }
-    })    
+    var orderNumber = that.data.orderList[0].orderNumber;
+    wxpay.wxpay(app, money, orderId, orderNumber, "/pages/order-list/index");
+    // wx.request({
+    //   url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/amount',
+    //   data: {
+    //     token: wx.getStorageSync('token')
+    //   },
+    //   success: function (res) {
+    //     if (res.data.code == 0) {
+    //       // res.data.data.balance
+    //       money = money - res.data.data.balance;
+    //       if (res.data.data.score < needScore) {
+    //         wx.showModal({
+    //           title: '错误',
+    //           content: '您的积分不足，无法支付',
+    //           showCancel: false
+    //         })
+    //         return;
+    //       }
+    //       if (money <= 0) {
+    //         // 直接使用余额支付
+    //         wx.request({
+    //           url: 'https://api.it120.cc/' + app.globalData.subDomain + '/order/pay',
+    //           method:'POST',
+    //           header: {
+    //             'content-type': 'application/x-www-form-urlencoded'
+    //           },
+    //           data: {
+    //             token: wx.getStorageSync('token'),
+    //             orderId: orderId
+    //           },
+    //           success: function (res2) {
+    //             that.onShow();
+    //           }
+    //         })
+    //       } else {
+    //         //付款
+    //         var orderNumber = that.data.orderList[0].orderNumber;
+    //         wxpay.wxpay(app, money, orderId, orderNumber, "/pages/order-list/index");
+    //       }
+    //     } else {
+    //       wx.showModal({
+    //         title: '错误',
+    //         content: '无法获取用户资金信息',
+    //         showCancel: false
+    //       })
+    //     }
+    //   }
+    // })    
   },
   onLoad:function(options){
     // 生命周期函数--监听页面加载

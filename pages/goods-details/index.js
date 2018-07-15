@@ -260,9 +260,10 @@ Page({
     }
     //组建购物车
     var shopCarInfo = this.bulidShopCarInfo();
+    console.log(">>>" + shopCarInfo.name);
     this.setData({
       shopCarInfo:shopCarInfo,
-      shopNum:shopCarInfo.shopNum
+      shopNum: shopCarInfo.number
     });
 
     // 写入本地存储
@@ -327,45 +328,41 @@ Page({
   bulidShopCarInfo: function () {
     // 加入购物车
     var shopCarMap = {};
-    shopCarMap.goodsId = this.data.goodsDetail.basicInfo.id;
-    shopCarMap.pic = this.data.goodsDetail.basicInfo.pic;
-    shopCarMap.name = this.data.goodsDetail.basicInfo.name;
-    // shopCarMap.label=this.data.goodsDetail.basicInfo.id; 规格尺寸 
-    shopCarMap.propertyChildIds = this.data.propertyChildIds;
-    shopCarMap.label = this.data.propertyChildNames;
-    shopCarMap.price = this.data.selectSizePrice;
-    shopCarMap.score = this.data.totalScoreToPay;
+    shopCarMap.id = this.data.product.id;
+    shopCarMap.pic = this.data.product.imgUrl;
+    shopCarMap.goodsName = this.data.product.name;
+    
+    shopCarMap.price = this.data.product.price;
+
     shopCarMap.left = "";
     shopCarMap.active = true;
-    shopCarMap.number = this.data.buyNumber;
-    shopCarMap.logisticsType = this.data.goodsDetail.basicInfo.logisticsId;
-    shopCarMap.logistics = this.data.goodsDetail.logistics;
-    shopCarMap.weight = this.data.goodsDetail.basicInfo.weight;
+    shopCarMap.productCount = this.data.buyNumber;
+    
 
-    var shopCarInfo = this.data.shopCarInfo;
-    if (!shopCarInfo.shopNum) {
-      shopCarInfo.shopNum = 0;
-    }
-    if (!shopCarInfo.shopList) {
-      shopCarInfo.shopList = [];
-    }
-    var hasSameGoodsIndex = -1;
-    for (var i = 0; i < shopCarInfo.shopList.length; i++) {
-      var tmpShopCarMap = shopCarInfo.shopList[i];
-      if (tmpShopCarMap.goodsId == shopCarMap.goodsId && tmpShopCarMap.propertyChildIds == shopCarMap.propertyChildIds) {
-        hasSameGoodsIndex = i;
-        shopCarMap.number = shopCarMap.number + tmpShopCarMap.number;
-        break;
-      }
-    }
+    var shopCarInfo = shopCarMap;
+    // if (!shopCarInfo.shopNum) {
+    //   shopCarInfo.shopNum = 0;
+    // }
+    // if (!shopCarInfo.shopList) {
+    //   shopCarInfo.shopList = [];
+    // }
+    // var hasSameGoodsIndex = -1;
+    // for (var i = 0; i < shopCarInfo.shopList.length; i++) {
+    //   var tmpShopCarMap = shopCarInfo.shopList[i];
+    //   if (tmpShopCarMap.goodsId == shopCarMap.goodsId && tmpShopCarMap.propertyChildIds == shopCarMap.propertyChildIds) {
+    //     hasSameGoodsIndex = i;
+    //     shopCarMap.number = shopCarMap.number + tmpShopCarMap.number;
+    //     break;
+    //   }
+    // }
 
-    shopCarInfo.shopNum = shopCarInfo.shopNum + this.data.buyNumber;
-    if (hasSameGoodsIndex > -1) {
-      shopCarInfo.shopList.splice(hasSameGoodsIndex, 1, shopCarMap);
-    } else {
-      shopCarInfo.shopList.push(shopCarMap);
-    }
-    shopCarInfo.kjId = this.data.kjId;
+    // shopCarInfo.shopNum = shopCarInfo.shopNum + this.data.buyNumber;
+    // if (hasSameGoodsIndex > -1) {
+    //   shopCarInfo.shopList.splice(hasSameGoodsIndex, 1, shopCarMap);
+    // } else {
+    //   shopCarInfo.shopList.push(shopCarMap);
+    // }
+    // shopCarInfo.kjId = this.data.kjId;
     return shopCarInfo;
   },
 	/**

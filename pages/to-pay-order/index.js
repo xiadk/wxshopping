@@ -28,7 +28,7 @@ Page({
     }else{
       //购物车下单
       var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
-      
+      buyNowInfoMem = shopCarInfoMem.shopList[0];
     }
     that.setData({
       goodsList: [buyNowInfoMem],
