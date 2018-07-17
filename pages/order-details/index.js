@@ -2,14 +2,20 @@ var app = getApp();
 Page({
     data:{
       orderId:0,
-        goodsList:[],
-        yunPrice:"0.00"
+      goodsList:[],
+      yunPrice:"0.00",
+      dealType:null
     },
     onLoad:function(e){
       var orderId = e.id;
+      var dealType = e.dealType;
+      if (!dealType){
+        dealType = null;
+      }
       this.data.orderId = orderId;
       this.setData({
-        orderId: orderId
+        orderId: orderId,
+        dealType: dealType
       });
     },
     onShow : function () {
@@ -190,5 +196,65 @@ Page({
         }
       })
       
+    },
+    sendBtnTap:function(e){
+      let that = this;
+      var trackingNumber = e.detail.value.trackingNumber;
+      var linkMan = e.detail.value.linkMan;
+      var mobile = e.detail.value.mobile;
+      var address = e.detail.value.address;
+      if (trackingNumber == "") {
+        wx.showModal({
+          title: '提示',
+          content: '请填写快递单号',
+          showCancel: false
+        })
+        return
+      }
+      if (linkMan == "") {
+        wx.showModal({
+          title: '提示',
+          content: '请填写联系人姓名',
+          showCancel: false
+        })
+        return
+      }
+      if (mobile == "") {
+        wx.showModal({
+          title: '提示',
+          content: '请填写手机号码',
+          showCancel: false
+        })
+        return
+      };
+      if (address == "") {
+        wx.showModal({
+          title: '提示',
+          content: '请填写详细地址',
+          showCancel: false
+        })
+        return
+      };
+      var logistics = {
+        trackingNumber: trackingNumber,
+        linkMan: linkMan,
+        mobile: mobile,
+        address: address,
+        id: that.data.orderId
+      };
+      app.getHttpPostData(function (result) {
+        if (result.code!=0) {
+          // 登录错误 
+          wx.hideLoading();
+          wx.showModal({
+            title: '失败',
+            content: "result.msg",
+            showCancel: false
+          })
+          return;
+        }
+        // 跳转到结算页面
+        wx.navigateBack({})
+      }, logistics, '/order/sendGoods'); 
     }
 })

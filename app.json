@@ -18,7 +18,8 @@
     "pages/withdraw/index",
     "pages/kanjia/index",
     "pages/authorize/index",
-    "pages/introduce/index"
+    "pages/introduce/index",
+    "pages/order-dealwith/index"
   ],
   "window":{
     "backgroundTextStyle":"light",

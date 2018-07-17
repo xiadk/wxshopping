@@ -24,6 +24,9 @@
   <view class="my-item">
     <navigator url="/pages/select-address/index" hover-class="navigator-hover">我的收货地址</navigator>
   </view>
+  <view class="my-item" hidden='{{!isBusiness}}' >
+    <navigator url="/pages/order-dealwith/index" hover-class="navigator-hover">商家发货</navigator>
+  </view>
   <!-- <view class="my-item">
     <navigator url="/pages/mycoupons/index" hover-class="navigator-hover">我的优惠券</navigator>
   </view> -->
@@ -35,7 +38,7 @@
   </view>
   <view style="height:20rpx;background: #eee;width:100%;"></view>
   <view class="about" bindtap="aboutUs">
-    关于我们
+    联系我们
   </view>
 
   <view style="height:20rpx;background: #eee;width:100%;"></view>

@@ -77,7 +77,7 @@ App({
     }, 1000)    
   },
   globalData:{
-    baseurl:"http://localhost:9000/ZIBShopping",
+    baseurl:"http://127.0.0.1:9000/ZIBShopping",
     userInfo:null,
     token: wx.getStorageSync('token'),
     version: "2.0",

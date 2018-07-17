@@ -5,10 +5,20 @@ Page({
     balance:0,
     freeze:0,
     score:0,
-    score_sign_continuous:0
+    score_sign_continuous:0,
+    isBusiness:false
   },
 	onLoad() {
-    
+    let that = this;
+    app.getHttpGetData(function (result) {
+      wx.hideLoading();
+      console.log(result)
+      if (result.code == 1) {
+        that.setData({
+          isBusiness: result.isBusiness
+        })
+      }
+    }, null, '/order/isBusiness');
 	},	
   onShow() {
     let that = this;
@@ -29,8 +39,8 @@ Page({
   },
   aboutUs : function () {
     wx.showModal({
-      title: '关于我们',
-      content: '本系统基于开源小程序商城系统 https://github.com/EastWorld/wechat-app-mall 搭建，祝大家使用愉快！',
+      title: '联系我们',
+      content: '商家联系方式：15079594318\n统一代售，丰厚优惠，请联系我们',
       showCancel:false
     })
   },

@@ -115,9 +115,9 @@ Page({
     //选择订单状态
     postData.statusType = that.data.status[that.data.currentType];
     console.log("postData.status:" + postData.statusType)
-    
    //订单状态
     app.getHttpGetData(function (result) {
+      console.log("result:" + result)
       wx.hideLoading();
       if (result.code == 0) {
         console.log(result.orders)
@@ -128,7 +128,7 @@ Page({
         that.setData({
           orderList: null
         });
-        console.log(that.data.orderList)
+        
       }
     }, postData, '/order/findOrders'); 
     

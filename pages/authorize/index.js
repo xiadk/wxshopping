@@ -74,7 +74,7 @@ Page({
   login: function (userInfo) {
     let token = wx.getStorageSync('token');
     if (token) {
-
+      console.log(token+"==============");
       return;
     }
     wx.login({ 

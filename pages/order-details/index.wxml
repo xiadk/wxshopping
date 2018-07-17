@@ -107,7 +107,7 @@
                 <view class="right-text">{{orderDetail.orderInfo.updateTime}}</view>
             </view>
         </view>
-        <view class="peisong-way" hidden="{{orderDetail.orderInfo.status>=2 ? false:true}}">
+        <view class="peisong-way" hidden="{{orderDetail.orderInfo.status>=1 ? false:true}}">
             <view class="row-box">
                 <view class="row-label">收货人</view>
                 <view class="right-text">{{orderDetail.place.linkMan}} {{orderDetail.place.mobile}}</view>
@@ -140,5 +140,36 @@
                 <view class="row-label">实付金额</view>
                 <view class="right-text red">¥ {{orderDetail.orderInfo.price}}</view>
             </view>
+        </view>
+        <view class="goods-order" wx:if="{{orderDetail.orderInfo.status==1}}" hidden="{{dealType==null ? true : false}}">
+        <form bindsubmit="sendBtnTap" report-submit="true">
+            <view class="row-box">
+                <view class="row-label">快递单号</view>
+                <view class="right-text">
+                    <input name="trackingNumber" type="text" class="liuyan" placeholder="请输入" />
+                </view>
+            </view>
+            <view class="row-box">
+                <view class="row-label">商家联系人</view>
+                <view class="right-text">
+                    <input name="linkMan" type="text" class="liuyan" placeholder="请输入" />
+                </view>
+            </view>
+            <view class="row-box">
+                <view class="row-label">商家联系方式</view>
+                <view class="right-text">
+                    <input name="mobile" type="text" class="liuyan" placeholder="请输入" />
+                </view>
+            </view>
+            <view class="row-box">
+                <view class="row-label">地址</view>
+                <view class="right-text">
+                    <input name="address" type="text" class="liuyan" placeholder="请输入" />
+                </view>
+            </view>
+            <view class="btn-row">
+                <button class="confirm-btn" formType="submit">确认发货</button>
+            </view>
+        </form>
         </view>
 </view>
